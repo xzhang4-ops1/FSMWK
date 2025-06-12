@@ -14,11 +14,10 @@ def FSMWKpp(csv_path, k, top_n=1):
     max_p = 31
     weights_all = []
     for p in range(11, max_p):
-        print(p)
         mwkpp = MWKmeans(k, p / 10, 'mwkmeans++', replications=25)
         mwkpp.fit(data)
-        p_weights = np.median(mwkpp.weights, axis=0)
-        weights_all.append(p_weights)
+        for weights_k in mwkpp.weights:
+            weights_all.append(weights_k)
     weights_all = np.array(weights_all)
     median_weights = np.median(weights_all, axis=0)
     sorted_indices = np.argsort(median_weights)[::-1]
